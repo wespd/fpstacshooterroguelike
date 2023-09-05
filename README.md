@@ -1,2 +1,2 @@
 # fpstacshooterroguelike
-fps, tacs hooter, roguelike
+fps, tac shooter, roguelike
