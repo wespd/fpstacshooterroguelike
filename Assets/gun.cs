@@ -13,10 +13,14 @@ public class gun : Item
     public override void Use()
     {
         Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, shotRange);
-        HP hitHealth = hit.collider.GetComponent<HP>();
-        if(hitHealth != null)
+        if(hit.collider != null)
         {
-            hitHealth.ChangeHealth(-damage);
+            HP hitHealth = hit.collider.GetComponent<HP>();
+            if(hitHealth != null)
+            {
+                Debug.Log(hit.collider);
+                hitHealth.ChangeHealth(-damage);
+            }
         }
     }
 }

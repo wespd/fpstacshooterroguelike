@@ -26,6 +26,11 @@ public class PickupManager : MonoBehaviour
                 }
             }
         }
+        if(Input.GetMouseButtonDown(0))
+        {
+            Debug.Log("Item Used");
+            currentItem.Use();
+        }
     }
 
     
