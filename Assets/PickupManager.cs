@@ -22,6 +22,7 @@ public class PickupManager : MonoBehaviour
                 if(hitItem != null)
                 {
                     currentItem = hitItem;
+                    itemObject = hitItem.itemObject;
                 }
             }
         }
