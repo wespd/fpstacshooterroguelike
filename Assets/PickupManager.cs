@@ -27,6 +27,10 @@ public class PickupManager : MonoBehaviour
                 }
             }
         }
+        if(Input.GetMouseButtonDown(0))
+        {
+            currentItem.Use();
+        }
         if(Input.GetKeyDown(dropKey))
         {
             
