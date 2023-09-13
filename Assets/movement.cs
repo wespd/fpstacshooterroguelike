@@ -27,6 +27,7 @@ public class movement : MonoBehaviour
     bool isRecharging = true;
     public bool canMove = true;
     public Vector3 movementVector;
+    public float wallJumpRange;
     // Update is called once per frame
     void Update()
     {
@@ -96,7 +97,11 @@ public class movement : MonoBehaviour
             
             rB.AddForce(movementVector * acceleration, ForceMode.VelocityChange);
             rB.AddForce(new Vector3(-rB.velocity.x, 0, -rB.velocity.z) * frictionAmount);
-            
+            if(Input.GetKeyDown(jump) && !isGrounded())
+            {
+                RaycastHit wallJumpHit = Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out wallJumpHit, wallJumpRange)
+                WallJump(wallJumpHit);
+            }
             
            
         }
@@ -123,6 +128,13 @@ public class movement : MonoBehaviour
         else
         {
             return false;
+        }
+    }
+    public void WallJump(RaycastHit hit)
+    {
+        if(hit.collider != null)
+        {
+            rB.AddForce(hit.normal + (Vector3.up * jumpStrength));
         }
     }
 }
