@@ -100,11 +100,11 @@ public class movement : MonoBehaviour
             
            
         }
-        if(movementVector == Vector3.zero)
+        if(movementVector == Vector3.zero && isGrounded())
         {
             frictionAmount *= notMovingFrictionMultiplier;
         }
-        if(movementVector == Vector3.zero)
+        if(movementVector == Vector3.zero && isGrounded())
         {
             frictionAmount /= notMovingFrictionMultiplier;
         }
