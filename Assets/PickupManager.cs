@@ -12,7 +12,7 @@ public class PickupManager : MonoBehaviour
 
     public KeyCode pickupKey = KeyCode.E;
     public KeyCode dropKey = KeyCode.Q;
-
+    Rigidbody rB;
     void Update()
     {
         if(Input.GetKeyDown(pickupKey))
@@ -23,6 +23,11 @@ public class PickupManager : MonoBehaviour
                 Item hitItem = hit.collider.GetComponent<Item>();
                 if(hitItem != null)
                 {
+                    rB = hit.collider.GetComponent<Rigidbody>();
+                    if(rB != null)
+                    {
+                        rB.useGravity = false;
+                    }
                     currentItem = hitItem;
                 }
             }
@@ -33,7 +38,10 @@ public class PickupManager : MonoBehaviour
         }
         if(Input.GetKeyDown(dropKey))
         {
-            
+            if(rB != null)
+            {
+                rB.useGravity = false;
+            }
         }
         if(itemObject != null)
         {
