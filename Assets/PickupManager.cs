@@ -6,10 +6,12 @@ public class PickupManager : MonoBehaviour
 {
     public Item currentItem;
     public GameObject itemObject;
+    public Transform objectPosition;
 
     public float pickupRange;
 
     public KeyCode pickupKey = KeyCode.E;
+    public KeyCode dropKey = KeyCode.Q;
 
     void Update()
     {
@@ -22,15 +24,20 @@ public class PickupManager : MonoBehaviour
                 if(hitItem != null)
                 {
                     currentItem = hitItem;
-                    itemObject = hitItem.itemObject;
                 }
             }
         }
-        if(Input.GetMouseButtonDown(0))
+        if(Input.GetKeyDown(dropKey))
         {
-            Debug.Log("Item Used");
-            currentItem.Use();
+            
         }
+        if(itemObject != null)
+        {
+            itemObject.transform.position = objectPosition.position;
+            itemObject.transform.rotation = objectPosition.rotation;
+        }
+
+
     }
 
     
