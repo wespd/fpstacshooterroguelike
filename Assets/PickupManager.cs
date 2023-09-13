@@ -27,21 +27,26 @@ public class PickupManager : MonoBehaviour
                     if(rB != null)
                     {
                         rB.useGravity = false;
+                        rB.velocity = Vector3.zero;
                     }
                     currentItem = hitItem;
+                    itemObject = hitItem.itemObject;
                 }
             }
         }
-        if(Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButtonDown(0) && currentItem != null)
         {
             currentItem.Use();
         }
         if(Input.GetKeyDown(dropKey))
         {
+            itemObject = null;
+            currentItem = null;
             if(rB != null)
             {
-                rB.useGravity = false;
+                rB.useGravity = true;
             }
+            rB = null;
         }
         if(itemObject != null)
         {
