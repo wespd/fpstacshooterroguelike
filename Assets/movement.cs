@@ -30,8 +30,7 @@ public class movement : MonoBehaviour
     public float wallJumpRange;
     public float wallJumpVerticalPower;
     public float wallJumpHorizontalPower;
-    public int maxWallJumps;
-    int currentWallJumps;
+    bool canWallJump;
     // Update is called once per frame
     void Update()
     {
@@ -98,11 +97,12 @@ public class movement : MonoBehaviour
                 movementVector += transform.right;
             }
             
-            rB.AddForce(movementVector * acceleration, ForceMode.VelocityChange);
+            rB.AddForce(movementVector.normalized * acceleration, ForceMode.VelocityChange);
             rB.AddForce(new Vector3(-rB.velocity.x, 0, -rB.velocity.z) * frictionAmount);
-            if(Input.GetKeyDown(jump) && !isGrounded())
+            if(Input.GetKey(jump) && !isGrounded())
             {
-                RaycastHit wallJumpHit = Physics.Raycast(transform.position, movementVector, out wallJumpHit, wallJumpRange);
+                RaycastHit wallJumpHit;
+                Physics.Raycast(transform.position, movementVector, out wallJumpHit, wallJumpRange); 
                 WallJump(wallJumpHit);
             }
             
@@ -116,6 +116,15 @@ public class movement : MonoBehaviour
         {
             frictionAmount /= notMovingFrictionMultiplier;
         }
+        if(movementVector == Vector3.zero && rB.angularVelocity.magnitude < 1)
+        {
+            rB.angularVelocity = Vector3.zero;
+        }
+        if(movementVector == Vector3.zero && rB.velocity.magnitude < 1)
+        {
+            rB.velocity = Vector3.zero;
+        }
+    
     
         speed = lastFrameSpeed;
     }
@@ -126,7 +135,7 @@ public class movement : MonoBehaviour
         bool hitObject = Physics.SphereCast(transform.position, transform.localScale.x/2, -transform.up, out hit, transform.localScale.y + jumpDetectionHeight);
         if(hit.collider != null && hit.collider.GetComponent<canJumpOn>() != null)
         {
-            currentWallJumps = maxWallJumps;
+            canWallJump = true;
             return true;
         }
         else
@@ -136,10 +145,10 @@ public class movement : MonoBehaviour
     }
     public void WallJump(RaycastHit hit)
     {        
-        if(hit.collider != null && currentWallJumps > 0)
+        if(hit.collider != null && canWallJump)
         {
-            rB.AddForce(hit.normal * wallJumpHorizontalPower + (Vector3.up * wallJumpVerticalPower));
-            currentWallJumps --;
+            rB.velocity = (hit.normal * wallJumpHorizontalPower) + (transform.up * wallJumpVerticalPower);
+            canWallJump = false;
         }
     }
 }
