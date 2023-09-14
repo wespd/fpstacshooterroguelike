@@ -30,6 +30,8 @@ public class movement : MonoBehaviour
     public float wallJumpRange;
     public float wallJumpVerticalPower;
     public float wallJumpHorizontalPower;
+    public int maxWallJumps;
+    int currentWallJumps;
     // Update is called once per frame
     void Update()
     {
@@ -73,7 +75,6 @@ public class movement : MonoBehaviour
         {
             if(isGrounded())
             {
-
                 if(Input.GetKeyDown(jump))
                 {
                     rB.AddForce(transform.up * jumpStrength, ForceMode.Impulse);
@@ -125,6 +126,7 @@ public class movement : MonoBehaviour
         bool hitObject = Physics.SphereCast(transform.position, transform.localScale.x/2, -transform.up, out hit, transform.localScale.y + jumpDetectionHeight);
         if(hit.collider != null && hit.collider.GetComponent<canJumpOn>() != null)
         {
+            currentWallJumps = maxWallJumps;
             return true;
         }
         else
@@ -133,10 +135,11 @@ public class movement : MonoBehaviour
         }
     }
     public void WallJump(RaycastHit hit)
-    {
-        if(hit.collider != null)
+    {        
+        if(hit.collider != null && currentWallJumps > 0)
         {
             rB.AddForce(hit.normal * wallJumpHorizontalPower + (Vector3.up * wallJumpVerticalPower));
+            currentWallJumps --;
         }
     }
 }
