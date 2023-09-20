@@ -97,8 +97,8 @@ public class movement : MonoBehaviour
                 movementVector += transform.right;
             }
             
-            rB.AddForce(movementVector.normalized * acceleration, ForceMode.VelocityChange);
-            rB.AddForce(new Vector3(-rB.velocity.x, 0, -rB.velocity.z) * frictionAmount);
+            rB.AddForce(movementVector.normalized * speed, ForceMode.Acceleration);
+            rB.AddForce(new Vector3(-rB.velocity.x, 0, -rB.velocity.z) * frictionAmount, ForceMode.Acceleration);
             if(Input.GetKey(jump) && !isGrounded())
             {
                 RaycastHit wallJumpHit;
@@ -112,6 +112,7 @@ public class movement : MonoBehaviour
         {
             frictionAmount *= notMovingFrictionMultiplier;
         }
+        
         if(movementVector == Vector3.zero && isGrounded())
         {
             frictionAmount /= notMovingFrictionMultiplier;
@@ -147,6 +148,7 @@ public class movement : MonoBehaviour
     {        
         if(hit.collider != null && canWallJump)
         {
+            Debug.Log("One Wall Bounce");
             rB.velocity = (hit.normal * wallJumpHorizontalPower) + (transform.up * wallJumpVerticalPower);
             canWallJump = false;
         }
