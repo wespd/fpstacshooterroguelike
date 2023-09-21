@@ -31,42 +31,11 @@ public class movement : MonoBehaviour
     public float wallJumpVerticalPower;
     public float wallJumpHorizontalPower;
     bool canWallJump;
+    public float wallJumpMovementLockDuration;
     // Update is called once per frame
     void Update()
     {
-        lastFrameSpeed = speed;
         movementVector = Vector3.zero;
-        if(currentRechargeTime >= sprintRechargeTime)
-        {
-            isRecharging = true;
-        }
-        if(isRecharging == false)
-        {
-            if(currentRechargeTime <= sprintRechargeTime)
-            {
-                currentRechargeTime += 2*Time.deltaTime;
-            }
-           
-        }
-        else
-        {
-            if(currentSprint < maxSprint)
-            {
-                currentSprint += Time.deltaTime;
-            }
-            else
-            {
-                currentSprint = maxSprint;
-            }
-            
-        }
-        if(Input.GetKey(sprint) && currentSprint > 0 && isGrounded())
-        {
-            isRecharging = false;
-            speed *= sprintMultiplier;
-            currentSprint -= Time.deltaTime;
-            currentRechargeTime = 0;
-        }
 
         float acceleration = speed/Mathf.Max(rB.velocity.magnitude, 1); 
         //rB.velocity = new Vector3(0, rB.velocity.y, 0);
@@ -96,9 +65,18 @@ public class movement : MonoBehaviour
             {
                 movementVector += transform.right;
             }
+            if(movementVector != Vector3.zero)
+            {
+                rB.AddForce(movementVector.normalized * acceleration * Time.deltaTime, ForceMode.Acceleration);
+                rB.AddForce(new Vector3(-rB.velocity.x, 0, -rB.velocity.z) * frictionAmount, ForceMode.Acceleration);
+            }
+            else
+            {
+                rB.AddForce(movementVector.normalized * acceleration * Time.deltaTime, ForceMode.Acceleration);
+                rB.AddForce(new Vector3(-rB.velocity.x, 0, -rB.velocity.z) * frictionAmount * notMovingFrictionMultiplier, ForceMode.Acceleration);
+            }
             
-            rB.AddForce(movementVector.normalized * speed, ForceMode.Acceleration);
-            rB.AddForce(new Vector3(-rB.velocity.x, 0, -rB.velocity.z) * frictionAmount, ForceMode.Acceleration);
+            
             if(Input.GetKey(jump) && !isGrounded())
             {
                 RaycastHit wallJumpHit;
@@ -107,15 +85,6 @@ public class movement : MonoBehaviour
             }
             
            
-        }
-        if(movementVector == Vector3.zero && isGrounded())
-        {
-            frictionAmount *= notMovingFrictionMultiplier;
-        }
-        
-        if(movementVector == Vector3.zero && isGrounded())
-        {
-            frictionAmount /= notMovingFrictionMultiplier;
         }
         if(movementVector == Vector3.zero && rB.angularVelocity.magnitude < 1)
         {
@@ -144,6 +113,7 @@ public class movement : MonoBehaviour
             return false;
         }
     }
+
     public void WallJump(RaycastHit hit)
     {        
         if(hit.collider != null && canWallJump)
@@ -151,6 +121,14 @@ public class movement : MonoBehaviour
             Debug.Log("One Wall Bounce");
             rB.velocity = (hit.normal * wallJumpHorizontalPower) + (transform.up * wallJumpVerticalPower);
             canWallJump = false;
+            canMove = false;
+            StartCoroutine(MovementCooldown(wallJumpMovementLockDuration));
         }
+    }
+
+    IEnumerator MovementCooldown(float duration)
+    {
+        yeild return new waitForSeconds(duration);
+        canMove = true;
     }
 }
