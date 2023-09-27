@@ -4,27 +4,17 @@ using UnityEngine;
 
 public class movement : MonoBehaviour
 {
-    public float speed;
+    public float maxSpeed;
     public Rigidbody rB;
     public KeyCode forward;
     public KeyCode backward;
     public KeyCode left;
     public KeyCode right;
     public KeyCode jump;
-    public KeyCode sprint;
-    float lastFrameSpeed;
     public float jumpStrength;
     public float jumpDetectionHeight;
-    [Range(0,1)]
+    //[Range(10,30)]
     public float frictionAmount;
-    [Range(1,10)]
-    public float notMovingFrictionMultiplier;
-    public float sprintMultiplier;
-    public float maxSprint;
-    public float currentSprint;
-    public float sprintRechargeTime;
-    float currentRechargeTime;
-    bool isRecharging = true;
     public bool canMove = true;
     public Vector3 movementVector;
     public float wallJumpRange;
@@ -32,23 +22,29 @@ public class movement : MonoBehaviour
     public float wallJumpHorizontalPower;
     bool canWallJump;
     public float wallJumpMovementLockDuration;
+    public float gravityAcceleration;
+    public float gravitySnap;
+    [Range(0.1f, 0.99f)]
+    public float getToMaxSpeedMultiplier;
     // Update is called once per frame
     void Update()
     {
         movementVector = Vector3.zero;
-
-        float acceleration = speed/Mathf.Max(rB.velocity.magnitude, 1); 
-        //rB.velocity = new Vector3(0, rB.velocity.y, 0);
+        bool isGrounded = this.isGrounded();
+        
+        if(isGrounded)
+        {
+            canWallJump = true;
+        }
         if(canMove)
         {
-            if(isGrounded())
+            if(isGrounded)
             {
                 if(Input.GetKeyDown(jump))
                 {
                     rB.AddForce(transform.up * jumpStrength, ForceMode.Impulse);
                 }
             }
-        
             if(Input.GetKey(forward))
             {
                 movementVector += transform.forward;
@@ -65,47 +61,43 @@ public class movement : MonoBehaviour
             {
                 movementVector += transform.right;
             }
-            if(movementVector != Vector3.zero)
-            {
-                rB.AddForce(movementVector.normalized * acceleration * Time.deltaTime, ForceMode.Acceleration);
-                rB.AddForce(new Vector3(-rB.velocity.x, 0, -rB.velocity.z) * frictionAmount, ForceMode.Acceleration);
-            }
-            else
-            {
-                rB.AddForce(movementVector.normalized * acceleration * Time.deltaTime, ForceMode.Acceleration);
-                rB.AddForce(new Vector3(-rB.velocity.x, 0, -rB.velocity.z) * frictionAmount * notMovingFrictionMultiplier, ForceMode.Acceleration);
-            }
-            
-            
-            if(Input.GetKey(jump) && !isGrounded())
+            if(Input.GetKey(jump) && !isGrounded)
             {
                 RaycastHit wallJumpHit;
                 Physics.Raycast(transform.position, movementVector, out wallJumpHit, wallJumpRange); 
                 WallJump(wallJumpHit);
             }
-            
-           
         }
+        //rB.AddForce(movementVector.normalized * (maxSpeed - rB.velocity.magnitude) * getToMaxSpeedMultiplier * Time.deltaTime, ForceMode.VelocityChange);
+        rB.AddForce(movementVector.normalized * maxSpeed * Time.deltaTime, ForceMode.VelocityChange);
+        if(rB.velocity.y < 0)
+        {
+            rB.AddForce(new Vector3(0, -gravityAcceleration, 0) * Time.deltaTime * gravitySnap, ForceMode.VelocityChange);
+        }
+        else
+        {
+            rB.AddForce(new Vector3(0, -gravityAcceleration, 0) * Time.deltaTime, ForceMode.VelocityChange);
+        }
+        
+        rB.AddForce(frictionAmount * Time.deltaTime * new Vector3(-rB.velocity.x, 0 , -rB.velocity.z));
         if(movementVector == Vector3.zero && rB.angularVelocity.magnitude < 1)
         {
             rB.angularVelocity = Vector3.zero;
         }
         if(movementVector == Vector3.zero && rB.velocity.magnitude < 1)
         {
-            rB.velocity = Vector3.zero;
+            rB.velocity = new Vector3(0, rB.velocity.y, 0);
         }
     
     
-        speed = lastFrameSpeed;
     }
     
     public bool isGrounded()
     {
         RaycastHit hit;
         bool hitObject = Physics.SphereCast(transform.position, transform.localScale.x/2, -transform.up, out hit, transform.localScale.y + jumpDetectionHeight);
-        if(hit.collider != null && hit.collider.GetComponent<canJumpOn>() != null)
+        if(hit.collider && hit.collider.GetComponent<canJumpOn>())
         {
-            canWallJump = true;
             return true;
         }
         else
@@ -116,9 +108,8 @@ public class movement : MonoBehaviour
 
     public void WallJump(RaycastHit hit)
     {        
-        if(hit.collider != null && canWallJump)
+        if(hit.collider && canWallJump)
         {
-            Debug.Log("One Wall Bounce");
             rB.velocity = (hit.normal * wallJumpHorizontalPower) + (transform.up * wallJumpVerticalPower);
             canWallJump = false;
             canMove = false;
@@ -128,7 +119,7 @@ public class movement : MonoBehaviour
 
     IEnumerator MovementCooldown(float duration)
     {
-        yeild return new waitForSeconds(duration);
+        yield return new WaitForSeconds(duration);
         canMove = true;
     }
 }
