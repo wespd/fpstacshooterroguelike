@@ -1050,7 +1050,7 @@ MonoBehaviour:
   wallJumpMovementLockDuration: 0.35
   gravityAcceleration: 8
   gravitySnap: 1.5
-  getToMaxSpeedMultiplier: 0.99
+  getToMaxSpeedMultiplier: 0.998
 --- !u!114 &827433518
 MonoBehaviour:
   m_ObjectHideFlags: 0
