@@ -32,7 +32,7 @@ public class movement : MonoBehaviour
         movementVector = Vector3.zero;
         bool isGrounded = this.isGrounded();
         
-        if(isGrounded)
+        if(isGrounded) 
         {
             canWallJump = true;
         }
@@ -110,7 +110,7 @@ public class movement : MonoBehaviour
     {        
         if(hit.collider && canWallJump)
         {
-            rB.velocity = (hit.normal * wallJumpHorizontalPower) + (transform.up * wallJumpVerticalPower);
+            rB.velocity = (hit.normal * wallJumpHorizontalPower) + (transform.up * wallJumpVerticalPower) + rB.velocity + transform.forward * wallJumpHorizontalPower;
             canWallJump = false;
             canMove = false;
             StartCoroutine(MovementCooldown(wallJumpMovementLockDuration));
