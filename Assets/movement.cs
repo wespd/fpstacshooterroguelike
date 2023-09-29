@@ -24,7 +24,7 @@ public class movement : MonoBehaviour
     public float wallJumpMovementLockDuration;
     public float gravityAcceleration;
     public float gravitySnap;
-    [Range(0.1f, 0.99f)]
+    [Range(0.9f, 0.9999999999f)]
     public float getToMaxSpeedMultiplier;
     // Update is called once per frame
     void Update()
@@ -69,7 +69,7 @@ public class movement : MonoBehaviour
             }
         }
         //rB.AddForce(movementVector.normalized * (maxSpeed - rB.velocity.magnitude) * getToMaxSpeedMultiplier * Time.deltaTime, ForceMode.VelocityChange);
-        rB.AddForce(movementVector.normalized * maxSpeed * Time.deltaTime, ForceMode.VelocityChange);
+        rB.AddForce(movementVector.normalized * maxSpeed * getToMaxSpeedMultiplier * Time.deltaTime, ForceMode.VelocityChange);
         if(rB.velocity.y < 0)
         {
             rB.AddForce(new Vector3(0, -gravityAcceleration, 0) * Time.deltaTime * gravitySnap, ForceMode.VelocityChange);

@@ -17,11 +17,15 @@ public class HP : MonoBehaviour
         currentHealth += change;
         if(currentHealth <= 0)
         {
-            Debug.Log(gameObject + " has died :(");
+            OnDeath();
         }
         if(currentHealth >= maxHealth)
         {
             currentHealth = maxHealth;
         }
+   }
+   public virtual void OnDeath()
+   {
+        Debug.Log(gameObject + " has died)");
    }
 }
