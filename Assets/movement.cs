@@ -110,7 +110,7 @@ public class movement : MonoBehaviour
     {        
         if(hit.collider && canWallJump)
         {
-            rB.velocity = (hit.normal * wallJumpHorizontalPower) + (transform.up * wallJumpVerticalPower) + rB.velocity + transform.forward * wallJumpHorizontalPower;
+            rB.velocity = ((hit.normal + transform.forward) * wallJumpHorizontalPower) + (transform.up * wallJumpVerticalPower) + rB.velocity +;
             canWallJump = false;
             canMove = false;
             StartCoroutine(MovementCooldown(wallJumpMovementLockDuration));
