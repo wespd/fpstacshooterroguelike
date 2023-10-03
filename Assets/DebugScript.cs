@@ -7,6 +7,7 @@ public class DebugScript : MonoBehaviour
 
     public KeyCode reset;
     public Transform resetPos;
+    public Rigidbody rB;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +21,7 @@ public class DebugScript : MonoBehaviour
         if (Input.GetKey(reset))
         {
             transform.position = resetPos.position;
+            rB.velocity = Vector3.zero;
         }
     }
 }
