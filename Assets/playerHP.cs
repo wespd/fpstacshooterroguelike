@@ -7,6 +7,8 @@ public class playerHP : HP
 {
     public override void OnDeath()
     {
+        SaveData.deaths++;
+        Debug.Log(SaveData.deaths);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

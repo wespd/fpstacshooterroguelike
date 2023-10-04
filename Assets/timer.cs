@@ -13,17 +13,23 @@ public class timer : MonoBehaviour
     public bool isTimeLimit;
     public float timeLimit;
 
+    string timeLimitString;
     public playerHP hP;
 
     private void Start()
     {
+        timeLimitString = "";
+        if(isTimeLimit)
+        {
+            timeLimitString = " out of " + timeLimit.ToString();
+        }
         startTime = Time.time;
     }
 
     private void Update()
     {
         currentTime = Time.time - startTime;
-        text.text = currentTime.ToString($"F{decimals}");
+        text.text = currentTime.ToString($"F{decimals}") + timeLimitString;
         if(isTimeLimit && currentTime >= timeLimit)
         {
             hP.OnDeath();
