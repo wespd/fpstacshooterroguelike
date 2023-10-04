@@ -8,6 +8,12 @@ public class timer : MonoBehaviour
     public Text text;
     float startTime;
     float currentTime;
+    public int decimals;
+
+    public bool isTimeLimit;
+    public float timeLimit;
+
+    public playerHP hP;
 
     private void Start()
     {
@@ -17,6 +23,10 @@ public class timer : MonoBehaviour
     private void Update()
     {
         currentTime = Time.time - startTime;
-        text.text = currentTime + "";
+        text.text = currentTime.ToString($"F{decimals}");
+        if(isTimeLimit && currentTime >= timeLimit)
+        {
+            hP.OnDeath();
+        }
     }
 }
