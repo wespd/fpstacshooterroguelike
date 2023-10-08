@@ -1155,7 +1155,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-46280
+  m_Name: pb_Mesh24228
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1977,7 +1977,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh24340
+  m_Name: pb_Mesh24130
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -5768,6 +5768,7 @@ GameObject:
   - component: {fileID: 2097426570}
   - component: {fileID: 2097426569}
   - component: {fileID: 2097426568}
+  - component: {fileID: 2097426574}
   m_Layer: 0
   m_Name: PolyShape (2)
   m_TagString: Untagged
@@ -6085,10 +6086,22 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2097426567}
   m_LocalRotation: {x: -0.1267987, y: 0.39198184, z: -0.05464531, w: 0.90955275}
-  m_LocalPosition: {x: 8.1, y: -1.93, z: 39.43}
+  m_LocalPosition: {x: 7.98, y: -0.71, z: 37.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: -10.826, y: 47.739, z: -11.678}
+--- !u!114 &2097426574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2097426567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd5b7fdbae658604981eaaabbd516fe3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
