@@ -8,6 +8,7 @@ public class DebugScript : MonoBehaviour
     public KeyCode reset;
     public Transform resetPos;
     public Rigidbody rB;
+    public timer mainTimer;
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +23,8 @@ public class DebugScript : MonoBehaviour
         {
             transform.position = resetPos.position;
             rB.velocity = Vector3.zero;
+            mainTimer.startTime = Time.time;
+            mainTimer.timerPaused = false;
         }
     }
 }

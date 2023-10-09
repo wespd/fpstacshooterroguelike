@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class timer : MonoBehaviour
 {
     public Text text;
-    float startTime;
+    public float startTime;
     float currentTime;
     public int decimals;
 
@@ -16,6 +16,8 @@ public class timer : MonoBehaviour
     string timeLimitString;
     public playerHP hP;
 
+    public bool timerPaused;
+
     private void Start()
     {
         timeLimitString = "";
@@ -24,15 +26,21 @@ public class timer : MonoBehaviour
             timeLimitString = " out of " + timeLimit.ToString();
         }
         startTime = Time.time;
+        timerPaused = false;
     }
 
     private void Update()
     {
+        if(!timerPaused)
         currentTime = Time.time - startTime;
         text.text = currentTime.ToString($"F{decimals}") + timeLimitString;
         if(isTimeLimit && currentTime >= timeLimit)
         {
             hP.OnDeath();
         }
+    }
+    public void pauseTimer() 
+    {
+        timerPaused = !timerPaused;
     }
 }
