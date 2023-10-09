@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Interact : MonoBehaviour
 {
+    float interactDistance;
     void Update()
     {
         if(Input.GetMouseButtonDown(1))
@@ -13,7 +14,7 @@ public class Interact : MonoBehaviour
             if(hit.collider != null)
             {
                 Interactable hitObject = hit.collider.GetComponent<Interactable>();
-                if(hitObject != null)
+                if(hitObject != null && hit.distance >= interactDistance)
                 {
                     hitObject.InteractTrigger(this);
                 }
