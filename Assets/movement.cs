@@ -116,7 +116,6 @@ public class movement : MonoBehaviour
             Vector3 verticalVelocity = (new Vector3(0,hit.normal.y ,0) + transform.up) * wallJumpVerticalPower;
             Vector3 addedVelocity = horizontalVelocity + verticalVelocity;
             rB.AddForce(addedVelocity, ForceMode.VelocityChange);
-            canWallJump = false;
             canMove = false;
             StartCoroutine(MovementCooldown(wallJumpMovementLockDuration));
         }

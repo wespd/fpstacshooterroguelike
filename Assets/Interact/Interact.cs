@@ -7,7 +7,7 @@ public class Interact : MonoBehaviour
     float interactDistance;
     void Update()
     {
-        if(Input.GetMouseButtonDown(1))
+        if(Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;
             Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit);
