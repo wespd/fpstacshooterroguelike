@@ -107,10 +107,15 @@ public class movement : MonoBehaviour
     }
 
     public void WallJump(RaycastHit hit)
-    {        
-        if(hit.collider && canWallJump)
+    {
+        float dotProduct = Vector3.Dot(Vector3.up, hit.normal);
+
+        if(hit.collider && canWallJump && dotProduct >= -0.2f)
         {
-            rB.velocity = ((hit.normal + transform.forward) * wallJumpHorizontalPower) + (transform.up * wallJumpVerticalPower) + rB.velocity;
+            Vector3 horizontalVelocity = (new Vector3(hit.normal.x, 0, hit.normal.z) + transform.forward) * wallJumpHorizontalPower;
+            Vector3 verticalVelocity = (new Vector3(0,hit.normal.y ,0) + transform.up) * wallJumpVerticalPower;
+            Vector3 addedVelocity = horizontalVelocity + verticalVelocity;
+            rB.AddForce(addedVelocity, ForceMode.VelocityChange);
             canWallJump = false;
             canMove = false;
             StartCoroutine(MovementCooldown(wallJumpMovementLockDuration));
