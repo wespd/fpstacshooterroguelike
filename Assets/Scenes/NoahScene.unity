@@ -2525,7 +2525,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-6952
+  m_Name: pb_Mesh24038
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -5076,7 +5076,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 846932633}
   m_LocalRotation: {x: -0.91308224, y: 0.0030339614, z: -0.40662706, w: 0.030433608}
-  m_LocalPosition: {x: 22.87, y: 0.41, z: 2.04}
+  m_LocalPosition: {x: 22.87, y: 0.34, z: 2.04}
   m_LocalScale: {x: 2.096, y: 2.096, z: 2.096}
   m_ConstrainProportionsScale: 0
   m_Children: []
