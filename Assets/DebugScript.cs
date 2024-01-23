@@ -23,8 +23,7 @@ public class DebugScript : MonoBehaviour
         {
             transform.position = resetPos.position;
             rB.velocity = Vector3.zero;
-            mainTimer.startTime = Time.time;
-            mainTimer.timerPaused = false;
+            mainTimer.resetTimer();
         }
     }
 }
