@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class timer : MonoBehaviour
 {
@@ -29,9 +30,11 @@ public class timer : MonoBehaviour
         if(!timerPaused)
         times[currentTime] = Time.time - startTime;
         string timerText = "";
+        int level = 1;
         foreach(float time in times)
         {
-            timerText += time.ToString($"F{decimals}") + "\n";
+            timerText += level + ": "  + time.ToString($"F{decimals}") + " ";
+            level++;
         }
         text.text = timerText + timeLimitString;
         if(isTimeLimit && times[currentTime] >= timeLimit)
@@ -46,8 +49,9 @@ public class timer : MonoBehaviour
     public void nextLevelTime()
     {
         startTime = Time.time;
-        times.Add(0);
+        times.Add(1);
         currentTime++;
+        Debug.Log(times.Count);
     }
     public void resetTimer()
     {
