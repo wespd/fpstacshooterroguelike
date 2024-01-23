@@ -46,6 +46,7 @@ public class timer : MonoBehaviour
     public void nextLevelTime()
     {
         startTime = Time.time;
+        times.Add(0);
         currentTime++;
     }
     public void resetTimer()
