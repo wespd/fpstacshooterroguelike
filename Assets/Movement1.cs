@@ -19,6 +19,13 @@ public class Movement1 : MonoBehaviour
     public float jumpGracePeriod;
     float coyoteTimeCounter;
 
+    public float jumpBufferTime;
+    float jumpBufferCounter;
+
+    [Header("Gravity Snap")]
+    public float gravityAcceleration;
+    public float gravitySnap;
+
     bool canJump = true;
 
     [Header("Ground Check")]
@@ -76,6 +83,7 @@ public class Movement1 : MonoBehaviour
     {
         MovePlayer();
         ApplyDrag();
+        GravitySnap();
     }
 
     void Inputs()
@@ -98,12 +106,29 @@ public class Movement1 : MonoBehaviour
         {
             horizontalInput++;
         }
+
+        if(Input.GetKeyDown(jumpKey))
+        {
+            jumpBufferCounter = jumpBufferTime;
+        }
+        else
+        {
+            jumpBufferCounter -= Time.deltaTime;
+        }
     
-        if(Input.GetKey(jumpKey) && canJump && coyoteTimeCounter > 0)
+        if(jumpBufferCounter > 0 && canJump && coyoteTimeCounter > 0)
         {
             Jump();
 
+            jumpBufferCounter = 0;
+            
             Invoke(nameof(ResetJump), jumpCooldown);
+        }
+        if(Input.GetKeyUp(jumpKey) && rb.velocity.y > 0)
+        {
+            rb.velocity = rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y * .5f, rb.velocity.z);
+
+            coyoteTimeCounter = 0;
         }
     }
 
@@ -134,9 +159,7 @@ public class Movement1 : MonoBehaviour
     {
         canJump = false;
 
-        rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.y);
-
-        rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+        rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
     }
 
     void ResetJump()
@@ -176,5 +199,22 @@ public class Movement1 : MonoBehaviour
     void DisplayPlayerInformation()
     {
         text.text = ($"speed:{rb.velocity.magnitude.ToString($"F{decimals}")},combined:{new Vector2(rb.velocity.x, rb.velocity.y).magnitude.ToString($"F{decimals}")}, x:{rb.velocity.x.ToString($"F{decimals}")}, z:{rb.velocity.z.ToString($"F{decimals}")}");
+    }
+
+    void GravitySnap()
+    {
+        if(rb.velocity.y < 0)
+        {
+            rb.AddForce(new Vector3(0, -gravityAcceleration, 0) * Time.deltaTime * gravitySnap, ForceMode.VelocityChange);
+        }
+        else
+        {
+            rb.AddForce(new Vector3(0, -gravityAcceleration, 0) * Time.deltaTime, ForceMode.VelocityChange);
+        }
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.DrawRay(transform.position, Vector3.down * (playerHeight *.5f + extraDistance));
     }
 }
