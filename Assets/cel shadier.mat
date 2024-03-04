@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-4769518187756753161
+--- !u!114 &-5625330737316598685
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: toon mat
-  m_Shader: {fileID: -6465566751694194690, guid: 2d1b45d0301c9a84297a6a0511447cfe, type: 3}
+  m_Name: cel shadier
+  m_Shader: {fileID: -6465566751694194690, guid: 92fa070ecee1a0f469b5c8930aabbd0d, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -35,7 +35,10 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
-    - _BUILTIN_QueueControl: 0
+    - _BUILTIN_QueueControl: 1
     - _BUILTIN_QueueOffset: 0
-    m_Colors: []
+    - _intensitry: 256
+    - _opacity: 0.1
+    m_Colors:
+    - _Color: {r: 0.6792453, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []

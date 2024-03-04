@@ -6,10 +6,11 @@ public class camera : MonoBehaviour
 {
     public float sensitivity;
     public Camera cam;
-    public GameObject camObj; 
-    float mousePositionX;
-    float mousePositionY;
-    public Vector2 yLookRange;
+    
+    float xRotation;
+    float yRotation;
+
+    public Transform orientation;
     void Start()
     {
         Cursor.visible = false;
@@ -17,12 +18,12 @@ public class camera : MonoBehaviour
     }
     void Update()
     {
-        mousePositionX += Input.GetAxis("Mouse X") * sensitivity;
-        mousePositionY += Input.GetAxis ("Mouse Y") * sensitivity;
+        xRotation += Input.GetAxis("Mouse X") * sensitivity;
+        yRotation += Input.GetAxis("Mouse Y") * sensitivity;
 
-        mousePositionY = Mathf.Clamp(mousePositionY, yLookRange.x, yLookRange.y); 
-        
-        camObj.transform.localRotation = Quaternion.Euler(-mousePositionY, 0f, 0f);
-        transform.rotation = Quaternion.Euler(0f, mousePositionX, 0f);
+        yRotation = Mathf.Clamp(yRotation, -90, 90);
+
+        transform.rotation = Quaternion.Euler(-yRotation, xRotation, 0);
+        orientation.rotation = Quaternion.Euler(0, xRotation, 0);
     }
 }
