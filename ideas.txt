@@ -1,0 +1,11 @@
+areas that interact with light:
+	Intesifiers- make light radius larger and more intense
+	Torches- they light up when the light touches them
+	Duplicators- they shoot a duplicate in the direction the duplicator is facing
+	Teleporters- they move the player to its location when the light touches it
+	Platforms that only are solid when the light is in them
+Interactables:
+	An object that launches you
+	bounce pad
+	checkpoint
+	
