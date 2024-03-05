@@ -420,17 +420,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbb329078d9ef1d4fa50d2a11b9712c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 9
+  moveSpeed: 6.5
   acceleration: 10
-  drag: 10
-  notMovingDrag: 0.9
-  jumpForce: 7
-  jumpCooldown: 0.15
+  drag: 20
+  notMovingDrag: 0.82
+  jumpForce: 6
+  jumpCooldown: 0.22
   airMultiplier: 0.5
-  jumpGracePeriod: 0.1
+  jumpGracePeriod: 0.2
   jumpBufferTime: 0.2
-  gravityAcceleration: 20
-  gravitySnap: 1.25
+  gravityAcceleration: 15
+  gravitySnap: 1.05
   playerHeight: 2
   extraDistance: 0.2
   jumpKey: 32
